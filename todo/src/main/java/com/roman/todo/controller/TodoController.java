@@ -8,22 +8,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/todos")
+@RequestMapping("/api/v1/todo")
 public class TodoController {
-    @Autowired
-    private TodoService todoService;
 
-    @PostMapping
+    private final TodoService todoService;
+
+    TodoController(TodoService todoService){
+        this.todoService = todoService;
+    }
+
+    @PostMapping("/add")
     public Todo addNewTodo(@RequestBody Todo todo){
         return todoService.saveTodo(todo);
     }
 
-    @GetMapping
+    @GetMapping("/get_all")
     public List<Todo> getAllTodos(){
         return todoService.findAllTodo();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete_by_id/{id}")
     public void deleteTodo(@PathVariable Long id){
         todoService.deleteTodoById(id);
     }

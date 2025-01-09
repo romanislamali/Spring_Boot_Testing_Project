@@ -3,7 +3,6 @@ package com.roman.todo.serviceImpl;
 import com.roman.todo.model.Todo;
 import com.roman.todo.repository.TodoRepo;
 import com.roman.todo.service.TodoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 @Service
 public class TodoServiceImpl implements TodoService {
 
-    private TodoRepo todoRepo;
+    private final TodoRepo todoRepo;
 
     TodoServiceImpl(TodoRepo todoRepo){
         this.todoRepo = todoRepo;
