@@ -1,5 +1,7 @@
 package com.roman.todo.controller;
 
+import com.roman.todo.dto.ToDoResponseDto;
+import com.roman.todo.dto.TodoRequestDto;
 import com.roman.todo.model.Todo;
 import com.roman.todo.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,17 @@ public class TodoController {
     }
 
     @PostMapping("/add")
-    public Todo addNewTodo(@RequestBody Todo todo){
-        return todoService.saveTodo(todo);
+    public ToDoResponseDto addNewTodo(@RequestBody TodoRequestDto todo){
+        return todoService.saveOrUpdateTodo(todo);
+    }
+
+    @PutMapping("/update")
+    public  ToDoResponseDto updateTodo(@RequestBody TodoRequestDto todo){
+        return todoService.saveOrUpdateTodo(todo);
     }
 
     @GetMapping("/get_all")
-    public List<Todo> getAllTodos(){
+    public List<ToDoResponseDto> getAllTodos(){
         return todoService.findAllTodo();
     }
 

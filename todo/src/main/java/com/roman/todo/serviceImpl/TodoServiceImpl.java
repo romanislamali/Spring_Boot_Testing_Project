@@ -1,11 +1,14 @@
 package com.roman.todo.serviceImpl;
 
+import com.roman.todo.dto.ToDoResponseDto;
+import com.roman.todo.dto.TodoRequestDto;
 import com.roman.todo.model.Todo;
 import com.roman.todo.repository.TodoRepo;
 import com.roman.todo.service.TodoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -17,13 +20,48 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo saveTodo(Todo todo) {
-        return todoRepo.save(todo);
+    public ToDoResponseDto saveOrUpdateTodo(TodoRequestDto todoReq) {
+
+        Todo todo = dtoToToDo(todoReq);
+
+        Todo toDoRes = todoRepo.save(todo);
+
+        ToDoResponseDto responseDto = toDoToDto(toDoRes);
+
+        return responseDto;
+    }
+
+    private Todo dtoToToDo(TodoRequestDto todoReq) {
+        return Todo.builder()
+                .title(todoReq.getTitle())
+                .completed(todoReq.isCompleted())
+                .build();
+    }
+
+    private ToDoResponseDto toDoToDto(Todo toDoRes) {
+        return ToDoResponseDto.builder()
+                .id(toDoRes.getId())
+                .title(toDoRes.getTitle())
+                .completed(toDoRes.isCompleted())
+                .build();
     }
 
     @Override
-    public List<Todo> findAllTodo() {
-        return todoRepo.findAll();
+    public List<ToDoResponseDto> findAllTodo() {
+
+        List<Todo> todo = todoRepo.findAll();
+
+        return toDoListRes(todo);
+    }
+
+    private List<ToDoResponseDto> toDoListRes(List<Todo> todos) {
+        return todos.stream()
+                .map(todo -> new ToDoResponseDto(
+                        todo.getId(),
+                        todo.getTitle(),
+                        todo.isCompleted()
+                ))
+                .collect(Collectors.toList());
     }
 
     @Override
