@@ -2,9 +2,7 @@ package com.roman.todo.controller;
 
 import com.roman.todo.dto.ToDoResponseDto;
 import com.roman.todo.dto.TodoRequestDto;
-import com.roman.todo.model.Todo;
 import com.roman.todo.service.TodoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
